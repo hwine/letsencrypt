@@ -14,5 +14,12 @@ fi
 
 if ! hash virtualenv 2>/dev/null; then
     echo "virtualenv Not Installed\nInstalling with pip"
-    pip install virtualenv
+    # homebrew doesn't require sudo, but a global install of virtualenv would
+    # installation for just this user should succeed
+    pip install --user virtualenv
+    # however, the userinstallation bin dir may not be part of the user's PATH
+    if ! hash virtualenv 2>/dev/null; then
+        echo "virtualenv not in path\nPlease add & rerun"
+        exit 1
+    fi
 fi
